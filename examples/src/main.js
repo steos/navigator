@@ -7,7 +7,7 @@ import ExampleApp from './ExampleApp'
 
 // minimal example
 
-render(<Navigator title="demo"><ExampleApp/></Navigator>, window.root)
+render(<ExampleApp/>, window.root)
 
 // directory view example
 

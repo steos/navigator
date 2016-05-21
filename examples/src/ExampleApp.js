@@ -1,5 +1,6 @@
 
 import React from 'react'
+import Navigator from '../../src'
 
 const OtherView = (props, context) => (
   <p>
@@ -29,4 +30,10 @@ const RootView = (props, context) => (
 
 RootView.contextTypes = {nav: React.PropTypes.object}
 
-export default RootView
+const App = (props) => (
+  <Navigator title="demo">
+    <RootView/>
+  </Navigator>
+)
+
+export default App
