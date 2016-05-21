@@ -10,18 +10,21 @@ const mapObj = (f, obj) => {
 }
 
 export default class DirView extends React.Component {
-  toDir(name, dirs) {
-    this.context.nav.push(
-      <DirView path={this.props.path+"/"+name} dirs={dirs}/>,
-      {title: this.props.path+"/"+name}
-    )
+  showDir(name, dirs) {
+    return e => {
+      e.preventDefault()
+      this.context.nav.push(
+        <DirView path={this.props.path+"/"+name} dirs={dirs}/>,
+        {title: this.props.path+"/"+name}
+      )
+    }
   }
   renderDirItem(item, name) {
     return (
       <li key={name}>
         {item == null
           ? <span>{name}</span>
-          : <a href="#" onClick={() => this.toDir(name, item)}>{name}</a> }
+          : <a href="#" onClick={this.showDir(name, item)}>{name}</a>}
       </li>
     )
   }

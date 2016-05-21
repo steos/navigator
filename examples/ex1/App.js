@@ -2,12 +2,16 @@
 import React from 'react'
 import Navigator from '../../src'
 
-const OtherView = (props, context) => (
+const show = (nav, title, component) => (e) => {
+  e.preventDefault()
+  nav.push(component, {title})
+}
+
+const OtherView = (props, {nav}) => (
   <p>
     other view message: {props.message}
     <br/>
-    <a href="#" onClick={() => context.nav.push(
-        <AnotherView/>, {title: "lorem"})}>
+    <a href="#" onClick={show(nav, "lorem", <AnotherView/>)}>
       another view
     </a>
   </p>
@@ -17,11 +21,10 @@ OtherView.contextTypes = {nav: React.PropTypes.object}
 
 const AnotherView = props => <p>another view</p>
 
-const RootView = (props, context) => (
+const RootView = (props, {nav}) => (
   <p>
     root view
-    <a href="#" onClick={() => context.nav.push(
-        <OtherView message="hello"/>, {title: "other view"})}>
+    <a href="#" onClick={show(nav, "other view", <OtherView message="hello"/>)}>
       <br/>
       other view
     </a>
