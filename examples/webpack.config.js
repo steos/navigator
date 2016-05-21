@@ -1,12 +1,13 @@
 var path = require('path')
 module.exports = {
     //devtool: 'source-map',
-    context: path.join(__dirname, "src"),
-    entry: [
-      './main'
-    ],
+    context: __dirname,
+    entry: {
+        ex1: "./ex1/main",
+        ex2: "./ex2/main"
+    },
     output: {
-        filename: "bundle.js",
+        filename: "[name]/bundle.js",
         path: path.join(__dirname, "build")
     },
 

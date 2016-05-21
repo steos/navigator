@@ -3,13 +3,6 @@ import {render} from 'react-dom'
 
 import Navigator from '../../src'
 import DirView from './DirView'
-import ExampleApp from './ExampleApp'
-
-// minimal example
-
-render(<ExampleApp/>, window.root)
-
-// directory view example
 
 const dirs = {
   foo: {bar: null, baz: null},
@@ -17,4 +10,9 @@ const dirs = {
   bla: {blub: {abc: null, def: null}, blublub: null}
 }
 
-render(<Navigator title="/"><DirView path="" dirs={dirs}/></Navigator>, window.root2)
+render(
+  <Navigator title="/">
+    <DirView path="" dirs={dirs}/>
+  </Navigator>,
+  window.root
+)
