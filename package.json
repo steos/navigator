@@ -12,14 +12,16 @@
     "babel-preset-stage-2": "^6.5.0",
     "css-loader": "^0.23.1",
     "istanbul": "^1.0.0-alpha",
+    "jsdom": "^9.1.0",
     "less": "^2.7.1",
     "less-loader": "^2.2.3",
     "mocha": "^2.4.5",
     "react-dom": "^15.0.2",
+    "react-motion": "^0.4.3",
+    "react-swipeable-views": "^0.6.2",
     "style-loader": "^0.13.1",
     "webpack": "^1.12.14",
-    "webpack-dev-server": "^1.14.1",
-    "jsdom": "^9.1.0"
+    "webpack-dev-server": "^1.14.1"
   },
   "dependencies": {
     "react": "^15.0.2"

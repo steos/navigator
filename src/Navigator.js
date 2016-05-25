@@ -1,13 +1,11 @@
 import React from 'react'
 
-import style from './Navigator.less'
-
 const last = xs => xs[xs.length - 1]
 
 export default class Navigator extends React.Component {
   constructor(props) {
     super(props)
-    this.state = {views: [{component: props.children, opts: {title: props.title || ""} }]}
+    this.state = {views: [{component: props.root, opts: {title: props.title || ""} }]}
     this.nav = {
       push: (component, opts = {}) => {
         // console.log('router push', component, opts)
@@ -15,10 +13,16 @@ export default class Navigator extends React.Component {
       },
       pop: () => {
         // console.log('router pop')
+        if (this.isRoot()) throw new Error('cannot pop root')
         const view = this.activeView()
         this.setState({views: this.state.views.slice(0, -1)})
         return view
-      }
+      },
+      popAll: (component, opts = {}) => {
+        this.setState({views: [{component, opts}]})
+      },
+      active: () => this.activeView(),
+      isRoot: () => this.isRoot()
     }
   }
   getChildContext() {
@@ -31,25 +35,16 @@ export default class Navigator extends React.Component {
     return this.state.views.length === 1
   }
   render() {
-    return (
-      <div>
-        {this.props.hideNav === true ? null : this.renderNavHeader()}
-        {this.activeView().component}
-      </div>
-    )
-  }
-
-  renderNavHeader() {
-    return (
-      <div className={style.navHeader}>
-        {this.isRoot() ? null :
-          <a href="#" onClick={e => {e.preventDefault(); this.nav.pop()}}>&lt;</a>}
-        <span>{this.activeView().opts.title}</span>
-      </div>
-    )
+    return <div>{this.props.children}</div>
   }
 }
 
 Navigator.childContextTypes = {
   nav: React.PropTypes.object
 }
+
+const View = (props, {nav}) => nav.active().component
+View.propTypes = {children: React.PropTypes.object}
+View.contextTypes = {nav: React.PropTypes.object}
+
+Navigator.View = View

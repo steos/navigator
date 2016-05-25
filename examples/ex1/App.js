@@ -1,6 +1,7 @@
 
 import React from 'react'
 import Navigator from '../../src'
+import Header from '../common/Header'
 
 const show = (nav, title, component) => (e) => {
   e.preventDefault()
@@ -34,8 +35,9 @@ const RootView = (props, {nav}) => (
 RootView.contextTypes = {nav: React.PropTypes.object}
 
 const App = (props) => (
-  <Navigator title="demo">
-    <RootView/>
+  <Navigator title="demo" root={<RootView/>}>
+    <Header/>
+    <Navigator.View/>
   </Navigator>
 )
 

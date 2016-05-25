@@ -4,7 +4,8 @@ module.exports = {
     context: __dirname,
     entry: {
         ex1: "./ex1/main",
-        ex2: "./ex2/main"
+        ex2: "./ex2/main",
+        ex3: "./ex3/main"
     },
     output: {
         filename: "[name]/bundle.js",
