@@ -5,7 +5,33 @@ export const Link = (props, {router}) =>
 
 Link.contextTypes = {router: React.PropTypes.object}
 
-export const Dashboard = (props) => <div>dashboard</div>
+class HelloForm extends React.Component {
+  constructor(props) {
+    super(props)
+    this.state = {name: 'World'}
+  }
+  render() {
+    const sayHello = () => {
+      this.context.router.push(this.context.route.hello({name: this.state.name}))
+      this.setState({name: ''})
+    }
+    return (
+      <div>
+        Say Hello
+        <input type="text" value={this.state.name} onChange={e => this.setState({name: e.target.value})}/>
+        <button onClick={sayHello}>now!</button>
+      </div>
+    )
+  }
+}
+HelloForm.contextTypes = {route: React.PropTypes.object, router: React.PropTypes.object}
+
+export const Dashboard = (props) => (
+  <div>
+    <p>dashboard</p>
+    <HelloForm/>
+  </div>
+)
 
 export const CustomerDetail = (props) => <div>Customer details for Customer {props.id}</div>
 

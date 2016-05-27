@@ -20,9 +20,13 @@ export const route = myro({
     routes: {
       '/:id': {
         name: 'detail',
-        props: { view: ({id}) => view('Customer #' + id, <CustomerDetail id={id}/>) },
+        props: { view: ({id}) => view(`Customer #${id}`, <CustomerDetail id={id}/>) },
       }
     }
+  },
+  '/hello/:name': {
+    name: 'hello',
+    props: { view: ({name}) => view(`Hello ${name}`, <p>Hello {name}!</p>) },
   }
 })
 
