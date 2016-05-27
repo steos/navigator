@@ -33,25 +33,25 @@ const routeViews = {
 
 const route = myro(viewRoutes)
 
+const Link = (props, {router}) =>
+  <a href={history.createHref(props.href)} onClick={router.go(props.href)}>{props.children}</a>
+
+Link.contextTypes = {router: React.PropTypes.object}
+
 const Dashboard = (props) => <div>dashboard</div>
 
 const CustomerDetail = (props) => <div>Customer details for Customer {props.id}</div>
 
 const Customers = (props, {router}) => (
   <ul>
-    <li><a href="#" onClick={router.go(route.customers.detail({id: 1}))}>Customer 1</a></li>
-    <li><a href="#" onClick={router.go(route.customers.detail({id: 2}))}>Customer 2</a></li>
+    <li><Link href={route.customers.detail({id: 1})}>Customer 1</Link></li>
+    <li><Link href={route.customers.detail({id: 2})}>Customer 2</Link></li>
   </ul>
 )
 
 Customers.contextTypes = {router: React.PropTypes.object}
 
 const Invoices = (props) => <div>invoices</div>
-
-const Link = (props, {router}) =>
-  <a href={props.href} onClick={router.go(props.href)}>{props.children}</a>
-
-Link.contextTypes = {router: React.PropTypes.object}
 
 const liStyle = {
   display:'inline',
