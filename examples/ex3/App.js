@@ -4,6 +4,7 @@ import Navigator from '../../src'
 import createHistory from 'history/lib/createHashHistory'
 import myro from 'myro'
 import Router from '../../src/Router'
+import myroDispatcher from '../../src/myro-dispatch'
 
 const history = createHistory({ queryKey: false })
 
@@ -87,12 +88,15 @@ const Header = (props, {nav}) => (
 )
 Header.contextTypes = {nav: React.PropTypes.object}
 
+const dispatch = myroDispatcher(route, routeViews)
 
 export default class App extends React.Component {
   render() {
     return (
       <Navigator title="Home" root={<Dashboard/>}>
-        <Router history={history} route={route} views={routeViews} defaultRoute="dashboard">
+        <Router history={history}
+                dispatcher={dispatch}
+                defaultRoute={route.dashboard()}>
           <Header/>
           <MainMenu/>
           <Navigator.View/>
