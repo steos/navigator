@@ -42,6 +42,9 @@ const Header = (props, {nav}) => (
 Header.contextTypes = {nav: React.PropTypes.object}
 
 export default class App extends React.Component {
+  getChildContext() {
+    return {route: Object.assign({}, route)}
+  }
   render() {
     return (
       <Navigator>
@@ -56,3 +59,5 @@ export default class App extends React.Component {
     )
   }
 }
+
+App.childContextTypes = {route: React.PropTypes.object}
