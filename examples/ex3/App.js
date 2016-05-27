@@ -3,8 +3,7 @@ import R from 'ramda'
 import Navigator from '../../src'
 import createHistory from 'history/lib/createHashHistory'
 import Router from '../../src/Router'
-import dispatch from './dispatch'
-import route from './route'
+import { route, dispatch } from './routing'
 import { Link, Dashboard, Customers, CustomerDetail, Invoices } from './components'
 
 const history = createHistory({ queryKey: false })

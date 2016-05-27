@@ -4,14 +4,19 @@ const listParents = (match) => {
   return listParents(match.parent).concat(match.parent)
 }
 
-const dispatcher = (route, views) => path => {
+const resolveHref = (route, name, params) =>
+  name.split('.').reduce((obj, key) => obj[key], route)(params)
+
+const dispatcher = route => path => {
   const routeMatch = route(path)
   if (routeMatch == null) {
     return null
   } else {
     const parents = listParents(routeMatch)
-    const viewStack = parents.concat(routeMatch).map(match =>
-      views[match.name](match.params))
+    const viewStack = parents.concat(routeMatch).map(match => {
+      const {component, opts} = match.props.view(match.params)
+      return {component, opts: {...opts, href: resolveHref(route, match.name, match.params)}}
+    })
     return viewStack
   }
 }

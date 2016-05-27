@@ -1,5 +1,5 @@
 import React from 'react'
-import route from './route'
+import { route } from './routing'
 
 export const Link = (props, {router}) =>
   <a href={router.href(props.href)} onClick={router.go(props.href)}>{props.children}</a>
