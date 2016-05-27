@@ -1,9 +1,7 @@
 import React from 'react'
 import {render} from 'react-dom'
 
-import Navigator from '../../src'
-import DirView from './DirView'
-import Header from '../common/Header'
+import App from './App'
 
 const dirs = {
   foo: {bar: null, baz: null},
@@ -11,12 +9,4 @@ const dirs = {
   bla: {blub: {abc: null, def: null}, blublub: null}
 }
 
-const root = <DirView path="" dirs={dirs}/>
-
-render(
-  <Navigator title="/" root={root}>
-    <Header/>
-    <Navigator.View/>
-  </Navigator>,
-  window.root
-)
+render(<App fs={dirs}/>, window.root)

@@ -26,7 +26,8 @@ export default class Navigator extends React.Component {
       },
       active: () => this.activeView(),
       isRoot: () => this.isRoot(),
-      map: (f) => this.state.views.map(({component, opts}) => f(opts, component))
+      map: (f) => this.state.views.map(({component, opts}) => f(opts, component)),
+      parent: () => this.isRoot() ? null : this.state.views[this.state.views.length-2]
     }
   }
   getChildContext() {
