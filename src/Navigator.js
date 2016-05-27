@@ -21,8 +21,12 @@ export default class Navigator extends React.Component {
       popAll: (component, opts = {}) => {
         this.setState({views: [{component, opts}]})
       },
+      replaceStack: (views) => {
+        this.setState({views})
+      },
       active: () => this.activeView(),
-      isRoot: () => this.isRoot()
+      isRoot: () => this.isRoot(),
+      map: (f) => this.state.views.map(({component, opts}) => f(opts, component))
     }
   }
   getChildContext() {

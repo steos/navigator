@@ -1,6 +1,6 @@
 var path = require('path')
 module.exports = {
-    //devtool: 'source-map',
+    devtool: 'source-map',
     context: __dirname,
     entry: {
         ex1: "./ex1/main",
