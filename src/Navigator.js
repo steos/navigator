@@ -5,7 +5,11 @@ const last = xs => xs[xs.length - 1]
 export default class Navigator extends React.Component {
   constructor(props) {
     super(props)
-    this.state = {views: [{component: props.root, opts: {title: props.title || ""} }]}
+    const views = props.root
+      // TODO opts title shouldn't be here
+      ? [{component: props.root, opts: {title: props.title || ""} }]
+      : []
+    this.state = {views}
     this.nav = {
       push: (component, opts = {}) => {
         // console.log('router push', component, opts)
@@ -25,6 +29,7 @@ export default class Navigator extends React.Component {
         this.setState({views})
       },
       active: () => this.activeView(),
+      hasContent: () => this.state.views.length > 0,
       isRoot: () => this.isRoot(),
       map: (f) => this.state.views.map(({component, opts}) => f(opts, component)),
       parent: () => this.isRoot() ? null : this.state.views[this.state.views.length-2]
@@ -34,7 +39,7 @@ export default class Navigator extends React.Component {
     return {nav: this.nav}
   }
   activeView() {
-    return last(this.state.views)
+    return this.state.views.length > 0 ? last(this.state.views) : null
   }
   isRoot() {
     return this.state.views.length === 1
@@ -48,7 +53,7 @@ Navigator.childContextTypes = {
   nav: React.PropTypes.object
 }
 
-const View = (props, {nav}) => nav.active().component
+const View = (props, {nav}) => nav.active() ? nav.active().component : null
 View.propTypes = {children: React.PropTypes.object}
 View.contextTypes = {nav: React.PropTypes.object}
 

@@ -9,11 +9,11 @@ const last = xs => xs[xs.length - 1]
 
 const history = createHistory({ queryKey: false })
 
-const Header = (props, {nav, router}) => (
+const Header = (props, {nav, router}) => !nav.hasContent() ? null : (
   <div className={style.navHeader}>
     {nav.isRoot() ? null :
       <a href={'#'+nav.parent().opts.title} onClick={router.go(nav.parent().opts.title)}>^</a>}
-    <span>{nav.active().opts.title}</span>
+    <span>{nav.isRoot() ? "/" : nav.active().opts.title}</span>
   </div>
 )
 
@@ -43,9 +43,8 @@ const dispatcher = rootFs => location => {
 
 export default class App extends React.Component {
   render() {
-    const root = <DirView path="" dirs={this.props.fs}/>
     return (
-      <Navigator title="/" root={root}>
+      <Navigator>
         <Router defaultRoute="" dispatcher={dispatcher(this.props.fs)} history={history}>
           <Header/>
           <Navigator.View/>

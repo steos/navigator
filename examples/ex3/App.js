@@ -81,7 +81,7 @@ Breadcrumbs.contextTypes = {nav: React.PropTypes.object}
 const Header = (props, {nav}) => (
   <header>
     <div style={{backgroundColor:'steelblue', padding:'12px', color:'white', fontFamily:'sans-serif'}}>
-      Initech CRM - {nav.active().opts.title}
+      Initech CRM {nav.active() ? <span> - {nav.active().opts.title}</span> : null }
     </div>
     <Breadcrumbs/>
   </header>
@@ -93,7 +93,7 @@ const dispatch = myroDispatcher(route, routeViews)
 export default class App extends React.Component {
   render() {
     return (
-      <Navigator title="Home" root={<Dashboard/>}>
+      <Navigator>
         <Router history={history}
                 dispatcher={dispatch}
                 defaultRoute={route.dashboard()}>
