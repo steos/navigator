@@ -7,6 +7,7 @@ export default class Router extends React.Component {
     this._unlisten = null
     this._dispatch = props.dispatcher
     this._routerContext = {
+      href: s => this._history.createHref(s),
       push: location => this._history.push(location),
       go: location => e => {
         e.preventDefault()

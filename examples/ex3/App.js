@@ -2,57 +2,12 @@ import React from 'react'
 import R from 'ramda'
 import Navigator from '../../src'
 import createHistory from 'history/lib/createHashHistory'
-import myro from 'myro'
 import Router from '../../src/Router'
-import myroDispatcher from '../../src/myro-dispatch'
+import dispatch from './dispatch'
+import route from './route'
+import { Link, Dashboard, Customers, CustomerDetail, Invoices } from './components'
 
 const history = createHistory({ queryKey: false })
-
-const viewRoutes = {
-  '/dashboard': {
-    name: 'dashboard',
-  },
-  '/invoices': {
-    name: 'invoices',
-  },
-  '/customers': {
-    name: 'customers',
-    routes: {
-      '/:id': 'detail'
-    }
-  }
-}
-
-const view = (title, component, opts = {}) => ({component, opts: {...opts, title}})
-
-const routeViews = {
-  'dashboard': () => view('Home', <Dashboard/>, {href: route.dashboard()}),
-  'invoices': () => view('Invoices', <Invoices/>, {href: route.invoices()}),
-  'customers': () => view('Customers', <Customers/>, {href: route.customers()}),
-  'customers.detail': ({id}) => view('Customer #'+id, <CustomerDetail id={id}/>, {href: route.customers.detail({id})})
-}
-
-const route = myro(viewRoutes)
-
-const Link = (props, {router}) =>
-  <a href={history.createHref(props.href)} onClick={router.go(props.href)}>{props.children}</a>
-
-Link.contextTypes = {router: React.PropTypes.object}
-
-const Dashboard = (props) => <div>dashboard</div>
-
-const CustomerDetail = (props) => <div>Customer details for Customer {props.id}</div>
-
-const Customers = (props, {router}) => (
-  <ul>
-    <li><Link href={route.customers.detail({id: 1})}>Customer 1</Link></li>
-    <li><Link href={route.customers.detail({id: 2})}>Customer 2</Link></li>
-  </ul>
-)
-
-Customers.contextTypes = {router: React.PropTypes.object}
-
-const Invoices = (props) => <div>invoices</div>
 
 const liStyle = {
   display:'inline',
@@ -67,7 +22,6 @@ const MainMenu = (props, {router}) => (
   </ul>
 )
 MainMenu.contextTypes = {router: React.PropTypes.object}
-
 
 const Breadcrumbs = (props, {nav}) => {
   if (nav.isRoot()) return null
@@ -87,8 +41,6 @@ const Header = (props, {nav}) => (
   </header>
 )
 Header.contextTypes = {nav: React.PropTypes.object}
-
-const dispatch = myroDispatcher(route, routeViews)
 
 export default class App extends React.Component {
   render() {
