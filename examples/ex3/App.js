@@ -22,13 +22,13 @@ const viewRoutes = {
   }
 }
 
-const view = (title, component) => ({component, opts: {title}})
+const view = (title, component, opts = {}) => ({component, opts: {...opts, title}})
 
 const routeViews = {
-  'dashboard': () => view('Home', <Dashboard/>),
-  'invoices': () => view('Invoices', <Invoices/>),
-  'customers': () => view('Customers', <Customers/>),
-  'customers.detail': ({id}) => view('Customer #'+id, <CustomerDetail id={id}/>)
+  'dashboard': () => view('Home', <Dashboard/>, {href: route.dashboard()}),
+  'invoices': () => view('Invoices', <Invoices/>, {href: route.invoices()}),
+  'customers': () => view('Customers', <Customers/>, {href: route.customers()}),
+  'customers.detail': ({id}) => view('Customer #'+id, <CustomerDetail id={id}/>, {href: route.customers.detail({id})})
 }
 
 const route = myro(viewRoutes)
@@ -48,6 +48,11 @@ Customers.contextTypes = {router: React.PropTypes.object}
 
 const Invoices = (props) => <div>invoices</div>
 
+const Link = (props, {router}) =>
+  <a href={props.href} onClick={router.go(props.href)}>{props.children}</a>
+
+Link.contextTypes = {router: React.PropTypes.object}
+
 const liStyle = {
   display:'inline',
   marginRight:'12px',
@@ -55,17 +60,21 @@ const liStyle = {
 }
 const MainMenu = (props, {router}) => (
   <ul>
-    <li style={liStyle}><a href="#" onClick={router.go(route.dashboard())}>Home</a></li>
-    <li style={liStyle}><a href="#" onClick={router.go(route.customers())}>Customers</a></li>
-    <li style={liStyle}><a href="#" onClick={router.go(route.invoices())}>Invoices</a></li>
+    <li style={liStyle}><Link href={route.dashboard()}>Home</Link></li>
+    <li style={liStyle}><Link href={route.customers()}>Customers</Link></li>
+    <li style={liStyle}><Link href={route.invoices()}>Invoices</Link></li>
   </ul>
 )
 MainMenu.contextTypes = {router: React.PropTypes.object}
 
-const Breadcrumbs = (props, {nav}) => nav.isRoot() ? null : (
-  <div>{R.intersperse(<span>&nbsp;/&nbsp;</span>,
-    nav.map(({title}) => <a href="#">{title}</a>)).map((elem, key) => React.cloneElement(elem, {key}))}</div>
-)
+
+const Breadcrumbs = (props, {nav}) => {
+  if (nav.isRoot()) return null
+  const links = nav.map(({title, href}) => <Link href={href}>{title}</Link>)
+  const crumbs = R.intersperse(<span>&nbsp;/&nbsp;</span>, links)
+  return <div>{crumbs.map((elem, key) => React.cloneElement(elem, {key}))}</div>
+}
+
 Breadcrumbs.contextTypes = {nav: React.PropTypes.object}
 
 const Header = (props, {nav}) => (
