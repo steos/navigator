@@ -1,4 +1,5 @@
 import React from 'react'
+import { connectRouter } from '../../src'
 
 const mapObj = (f, obj) => {
   const ret = []
@@ -9,10 +10,10 @@ const mapObj = (f, obj) => {
   return ret
 }
 
-export default class DirView extends React.Component {
+class DirView extends React.Component {
   renderDirItem(item, name) {
-    const {router: {go}} = this.context
-    const href = this.props.path+'/'+name
+    const {path, router: {go}} = this.props
+    const href = path+'/'+name
     return (
       <li key={name}>
         {item == null
@@ -28,4 +29,4 @@ export default class DirView extends React.Component {
   }
 }
 
-DirView.contextTypes = {router: React.PropTypes.object}
+export default connectRouter(DirView)

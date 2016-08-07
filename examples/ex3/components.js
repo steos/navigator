@@ -1,18 +1,18 @@
-import React from 'react'
+import React, { Component, PropTypes } from 'react'
+import { connectRouter } from '../../src'
 
-export const Link = (props, {router}) =>
-  <a href={router.href(props.href)} onClick={router.go(props.href)}>{props.children}</a>
+export const Link = connectRouter(props =>
+    <a href={props.router.href(props.href)} onClick={props.router.go(props.href)}>{props.children}</a>
+)
 
-Link.contextTypes = {router: React.PropTypes.object}
-
-class HelloForm extends React.Component {
+class HelloFormElement extends Component {
   constructor(props) {
     super(props)
     this.state = {name: 'World'}
   }
   render() {
     const sayHello = () => {
-      this.context.router.push(this.context.route.hello({name: this.state.name}))
+      this.props.router.push(this.props.route.hello({name: this.state.name}))
       this.setState({name: ''})
     }
     return (
@@ -24,7 +24,8 @@ class HelloForm extends React.Component {
     )
   }
 }
-HelloForm.contextTypes = {route: React.PropTypes.object, router: React.PropTypes.object}
+
+export const HelloForm = connectRouter(HelloFormElement)
 
 export const Dashboard = (props) => (
   <div>
@@ -35,13 +36,11 @@ export const Dashboard = (props) => (
 
 export const CustomerDetail = (props) => <div>Customer details for Customer {props.id}</div>
 
-export const Customers = (props, {router, route}) => (
+export const Customers = connectRouter((props) => (
   <ul>
-    <li><Link href={route.customers.detail({id: 1})}>Customer 1</Link></li>
-    <li><Link href={route.customers.detail({id: 2})}>Customer 2</Link></li>
+    <li><Link href={props.route.customers.detail({id: 1})}>Customer 1</Link></li>
+    <li><Link href={props.route.customers.detail({id: 2})}>Customer 2</Link></li>
   </ul>
-)
-
-Customers.contextTypes = {router: React.PropTypes.object, route: React.PropTypes.object}
+))
 
 export const Invoices = (props) => <div>invoices</div>
