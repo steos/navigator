@@ -1,6 +1,6 @@
 import React from 'react'
 import DirView from './DirView'
-import Navigator from '../../src'
+import Navigator, { connectRouter } from '../../src'
 import Router from '../../src/Router'
 import style from '../common/Header.less'
 import createHistory from 'history/lib/createHashHistory'
@@ -9,15 +9,13 @@ const last = xs => xs[xs.length - 1]
 
 const history = createHistory({ queryKey: false })
 
-const Header = (props, {nav, router}) => !nav.hasContent() ? null : (
+const Header = connectRouter(({nav, router}) => !nav.hasContent() ? null : (
   <div className={style.navHeader}>
     {nav.isRoot() ? null :
       <a href={'#'+nav.parent().opts.title} onClick={router.go(nav.parent().opts.title)}>^</a>}
     <span>{nav.isRoot() ? "/" : nav.active().opts.title}</span>
   </div>
-)
-
-Header.contextTypes = {nav: React.PropTypes.object, router: React.PropTypes.object}
+))
 
 const dispatcher = rootFs => location => {
   const path = location.replace(/^\/*(.*?)\/*$/, '$1').trim()

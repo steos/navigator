@@ -1,6 +1,5 @@
-
 import React from 'react'
-import Navigator from '../../src'
+import Navigator, { connectRouter } from '../../src'
 import Header from '../common/Header'
 
 const show = (nav, title, component) => (e) => {
@@ -8,21 +7,19 @@ const show = (nav, title, component) => (e) => {
   nav.push(component, {title})
 }
 
-const OtherView = (props, {nav}) => (
+const OtherView = connectRouter(({message, nav}) => (
   <p>
-    other view message: {props.message}
+    other view message: {message}
     <br/>
     <a href="#" onClick={show(nav, "lorem", <AnotherView/>)}>
       another view
     </a>
   </p>
-)
-
-OtherView.contextTypes = {nav: React.PropTypes.object}
+))
 
 const AnotherView = props => <p>another view</p>
 
-const RootView = (props, {nav}) => (
+const RootView = connectRouter(({nav}) => (
   <p>
     root view
     <a href="#" onClick={show(nav, "other view", <OtherView message="hello"/>)}>
@@ -30,9 +27,7 @@ const RootView = (props, {nav}) => (
       other view
     </a>
   </p>
-)
-
-RootView.contextTypes = {nav: React.PropTypes.object}
+))
 
 const App = (props) => (
   <Navigator title="demo" root={<RootView/>}>
