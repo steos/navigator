@@ -11,14 +11,14 @@ const dispatcher = route => path => {
   const routeMatch = route(path)
   if (routeMatch == null) {
     return null
-  } else {
-    const parents = listParents(routeMatch)
-    const viewStack = parents.concat(routeMatch).map(match => {
-      const {component, opts} = match.props.view(match.params)
-      return {component, opts: {...opts, href: resolveHref(route, match.name, match.params)}}
-    })
-    return viewStack
   }
+
+  const parents = listParents(routeMatch)
+  const viewStack = parents.concat(routeMatch).map(match => {
+    const { component, opts } = match.props.view(match.params)
+    return { component, opts: { ...opts, href: resolveHref(route, match.name, match.params) } }
+  })
+  return viewStack
 }
 
 export default dispatcher
